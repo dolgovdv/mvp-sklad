@@ -1,0 +1,89 @@
+services:
+  # 1. База данных PostgreSQL (с проверкой здоровья)
+  postgres:
+    image: postgres:16-alpine
+    container_name: mvp-sklad-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: sklad_user
+      POSTGRES_PASSWORD: sklad_password
+      POSTGRES_DB: sklad_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - mvp-sklad-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sklad_user -d sklad_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # 2. Бэкенд NestJS (ждет полной готовности Postgres)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mvp-sklad-backend
+    restart: always
+    ports:
+      - "3001:3001"
+    env_file:
+      - .env
+    environment:
+      PORT: 3001
+      DATABASE_URL: "postgresql://sklad_user:sklad_password@postgres:5432/sklad_db?schema=public"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - mvp-sklad-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # 3. Фронтенд Next.js
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mvp-sklad-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      NEXT_PUBLIC_API_URL: "http://localhost:3001"
+      NEXTAUTH_URL: "http://localhost:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - mvp-sklad-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  pgdata:
+
+networks:
+  mvp-sklad-network:
+    driver: bridge

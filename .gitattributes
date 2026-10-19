@@ -1,0 +1,6 @@
+# Отключение перевода строк при чтении из git
+* text=auto eol=lf
+
+**/run      eol=lf
+**/*.sh     eol=lf
+bin/*       eol=lf
