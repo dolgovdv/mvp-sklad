@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Providers } from "./providers";
-import "./globals.css";
+import { Providers } from "@/app/providers";
+import "@/app/styles/globals.css";
 
 export const metadata: Metadata = {
   title: "mvp-sklad",
