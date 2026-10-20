@@ -1,9 +1,8 @@
 # Зависимости и пакеты
 node_modules/
-dist/
-.next/
-out/
-*.tsbuildinfo
+/dist
+/.next
+/out
 
 # Локальные переменные окружения и секреты (КРИТИЧЕСКИ ВАЖНО)
 .env
