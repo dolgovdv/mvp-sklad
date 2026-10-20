@@ -19,5 +19,6 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": true,
     "types": ["node"]
-  }
+  },
+  "include": ["src"]
 }

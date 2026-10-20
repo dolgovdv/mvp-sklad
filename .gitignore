@@ -35,3 +35,6 @@ yarn-error.log*
 # Системные файлы ОС
 .DS_Store
 Thumbs.db
+
+# Сгенерированный Prisma-клиент (пересоздаётся через prisma generate)
+/backend/src/generated/
