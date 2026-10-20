@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Keyboard, BarChart3 } from "lucide-react";
+import { Keyboard, ChartColumn } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { ROUTES } from "@/shared/config/routes";
 
 const menuItems = [
   { name: "Ввод данных", href: ROUTES.DATA_ENTRY, icon: Keyboard },
-  { name: "Аналитика", href: ROUTES.ANALYTICS, icon: BarChart3 },
+  { name: "Аналитика", href: ROUTES.ANALYTICS, icon: ChartColumn },
 ];
 
 export function Sidebar() {
