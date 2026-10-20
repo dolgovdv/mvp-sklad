@@ -1,4 +1,9 @@
-export { default } from "next-auth/middleware";
+import { withAuth } from "next-auth/middleware";
+import { ROUTES } from "@/shared/config/routes";
+
+export default withAuth({
+  pages: { signIn: ROUTES.LOGIN },
+});
 
 export const config = {
   matcher: [
