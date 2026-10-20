@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './app.module.js';
 
 async function bootstrap() {
   // Создаем приложение с явным логированием в консоль Docker
